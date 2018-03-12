@@ -1,0 +1,10 @@
+E:\BTLCShapDotNet\BTLCShapDotNet\bin\Debug\BTLCShapDotNet.exe.config
+E:\BTLCShapDotNet\BTLCShapDotNet\bin\Debug\BTLCShapDotNet.exe
+E:\BTLCShapDotNet\BTLCShapDotNet\bin\Debug\BTLCShapDotNet.pdb
+E:\BTLCShapDotNet\BTLCShapDotNet\obj\Debug\BTLCShapDotNet.csprojResolveAssemblyReference.cache
+E:\BTLCShapDotNet\BTLCShapDotNet\obj\Debug\BTLCShapDotNet.Form1.resources
+E:\BTLCShapDotNet\BTLCShapDotNet\obj\Debug\BTLCShapDotNet.Properties.Resources.resources
+E:\BTLCShapDotNet\BTLCShapDotNet\obj\Debug\BTLCShapDotNet.csproj.GenerateResource.Cache
+E:\BTLCShapDotNet\BTLCShapDotNet\obj\Debug\BTLCShapDotNet.csproj.CoreCompileInputs.cache
+E:\BTLCShapDotNet\BTLCShapDotNet\obj\Debug\BTLCShapDotNet.exe
+E:\BTLCShapDotNet\BTLCShapDotNet\obj\Debug\BTLCShapDotNet.pdb
