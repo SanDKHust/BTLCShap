@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -17,22 +18,26 @@ namespace BTLCShapDotNet
     {
         private String richTextBoxString;
         private string strSearch = string.Empty;
+        private int idCurrentTruyen = 1;
        
         List<string> listTenTruyen = null;
         List<int> listIdTruyen = null;
         List<string> listHoi = null;
         List<int> listIdHoi = null;
 
-
         public Form1()
         {
-            InitializeComponent();
-            
-            listIdTruyen = getListTruyen().Tables["listTruyen"].AsEnumerable().Select(r => r.Field<int>("id")).ToList();
-            listTenTruyen = getListTruyen().Tables["listTruyen"].AsEnumerable().Select(r => r.Field<string>("name")).ToList();
-            comboBoxTryen.DataSource = listTenTruyen;
 
-            listViewHoi.View = View.List;
+                InitializeComponent();
+
+                listIdTruyen = getListTruyen().Tables["listTruyen"].AsEnumerable().Select(r => r.Field<int>("id")).ToList();
+                listTenTruyen = getListTruyen().Tables["listTruyen"].AsEnumerable().Select(r => r.Field<string>("name")).ToList();
+                comboBoxTryen.DataSource = listTenTruyen;
+
+                listViewHoi.View = View.List;
+
+                Control.CheckForIllegalCrossThreadCalls = false;
+            
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -116,8 +121,29 @@ namespace BTLCShapDotNet
 
         private void buttonSearch_Click(object sender, EventArgs e)
         {
-            strSearch = textBoxSearch.Text.ToString().Trim();
-            Utility.searchHighlightText(richTextBox, strSearch, Color.Yellow,true);
+            search();
+        }
+
+        private delegate void callbackSearch();
+
+        private void search()
+        {
+
+            new Thread(() =>
+            {
+                //this.Invoke((Action)delegate ()
+                //{
+                    strSearch = textBoxSearch.Text.ToString().Trim();
+                    DataSet dataSet = Utility.searchListHoiByTenHoi(strSearch, idCurrentTruyen);
+                    listHoi = dataSet.Tables["listHoi"].AsEnumerable().Select(r => r.Field<string>("TenHoi")).ToList();
+                    listIdHoi = dataSet.Tables["listHoi"].AsEnumerable().Select(r => r.Field<int>("id")).ToList();
+                    listViewHoi.Clear();
+                    foreach (string str in listHoi) listViewHoi.Items.Add(str);
+                    Utility.searchHighlightText(richTextBox, strSearch, Color.Yellow, true);
+                //});
+            })
+            { IsBackground = true }.Start();
+
         }
 
         private void textBoxSearch_TextChanged(object sender, EventArgs e)
@@ -128,6 +154,7 @@ namespace BTLCShapDotNet
                 {
                     richTextBox.Text = richTextBoxString;
                     strSearch = string.Empty;
+                    setupListHoi();
                 }
             }
         }
@@ -137,10 +164,8 @@ namespace BTLCShapDotNet
         {
             if (e.KeyCode == Keys.Enter)
             {
-                strSearch = textBoxSearch.Text.ToString().Trim();
-                Utility.searchHighlightText(richTextBox, strSearch, Color.Yellow,true);
+                search();
             }
-          
         }
 
         private DataSet getListTruyen()
@@ -165,7 +190,7 @@ namespace BTLCShapDotNet
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandType = System.Data.CommandType.Text;
-            cmd.CommandText = "INSERT Hoi (id,idTruyen,TenHoi,NoiDung) VALUES(5,1," + "N'Hồi 05: Cung loan bắn điêu',N'" + richTextBoxString + "')";
+            cmd.CommandText = "INSERT Hoi (id,idTruyen,TenHoi,NoiDung) VALUES(25,1," + "N'Hồi 20: Lén sửa kinh văn',N'" + richTextBoxString + "')";
             cmd.Connection = sqlConnection1;
 
             sqlConnection1.Open();
@@ -184,17 +209,23 @@ namespace BTLCShapDotNet
                 {
                     if (listTenTruyen[i].Equals(s))
                     {
-                        listViewHoi.Clear();
                         if(listIdTruyen != null)
                         {
-                            listHoi = getListHoi(listIdTruyen[i]).Tables["listHoi"].AsEnumerable().Select(r => r.Field<string>("TenHoi")).ToList();
-                            listIdHoi = getListHoi(listIdTruyen[i]).Tables["listHoi"].AsEnumerable().Select(r => r.Field<int>("id")).ToList();
-                            foreach (string str in listHoi) listViewHoi.Items.Add(str);
+                            idCurrentTruyen = listIdTruyen[i];
+                            setupListHoi();
                         }
                         break;
                     }
                 }
             }
+        }
+
+        private void setupListHoi()
+        {
+            listViewHoi.Clear();
+            listHoi = getListHoi(idCurrentTruyen).Tables["listHoi"].AsEnumerable().Select(r => r.Field<string>("TenHoi")).ToList();
+            listIdHoi = getListHoi(idCurrentTruyen).Tables["listHoi"].AsEnumerable().Select(r => r.Field<int>("id")).ToList();
+            foreach (string str in listHoi) listViewHoi.Items.Add(str);
         }
 
         private DataSet getListHoi(int idTruyen)
@@ -211,6 +242,8 @@ namespace BTLCShapDotNet
             }
             return dataSet;
         }
+
+
 
         private string getNoiDungHoi(int idHoi)
         {
@@ -242,6 +275,12 @@ namespace BTLCShapDotNet
                     {
                         richTextBox.Text = getNoiDungHoi(listIdHoi[i]);
                         richTextBoxString = richTextBox.Text.ToString();
+                        if (strSearch != string.Empty)
+                        {
+                            new Thread(()=>{
+                                Utility.searchHighlightText(richTextBox, strSearch, Color.Yellow, true);
+                            }){IsBackground = true}.Start() ;
+                        }
                     }
                 }
             }

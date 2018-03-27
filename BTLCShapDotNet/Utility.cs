@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -48,6 +50,21 @@ namespace BTLCShapDotNet
             //myRtb.SelectionLength = 0;
             //myRtb.SelectionColor = color;
             
+        }
+
+        public static DataSet searchListHoiByTenHoi(string tenHoi,int idTruyen)
+        {
+            DataSet dataSet = new DataSet();
+
+            string query = "select id,TenHoi from Hoi where idTruyen = "+ idTruyen + " and TenHoi like '%" + tenHoi + "%'";
+            using (SqlConnection connection = new SqlConnection(ConnectionString.connectionString))
+            {
+                connection.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
+                adapter.Fill(dataSet, "listHoi");
+                connection.Close();
+            }
+            return dataSet;
         }
     }
 }
