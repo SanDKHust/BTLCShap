@@ -86,5 +86,11 @@
   <ItemGroup>
     <None Include="Resources\close.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\ic_play_music.png" />
+    <None Include="Resources\ic_play_music1.png" />
+    <None Include="Resources\ic_open_file.png" />
+    <Content Include="Resources\music.wav" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

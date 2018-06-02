@@ -12,12 +12,12 @@ namespace BTLCShapDotNet
 {
     public static class Utility
     {
-        public static void searchHighlightText(this RichTextBox myRtb, string word, Color color,bool isSearch)
+        public static void searchHighlightText(this RichTextBox myRtb, string word, Color color, bool isSearch)
         {
-            
+
             if (word == string.Empty)
                 return;
-            
+
             string textSearch = myRtb.Text.ToString().ToLower();
             string search = word.ToLower();
 
@@ -30,6 +30,7 @@ namespace BTLCShapDotNet
                     {
                         myRtb.Select(index, search.Length);
                         myRtb.SelectionBackColor = color;
+                        if (startIndex == 0) myRtb.ScrollToCaret();
                         startIndex = index + search.Length;
                     }
                 }
@@ -45,18 +46,18 @@ namespace BTLCShapDotNet
                 }
 
             }
-            
+
             //myRtb.SelectionStart = s_start;
             //myRtb.SelectionLength = 0;
             //myRtb.SelectionColor = color;
-            
+
         }
 
-        public static DataSet searchListHoiByTenHoi(string tenHoi,int idTruyen)
+        public static DataSet searchListHoiByNoiDungHoi(string text, int idTruyen)
         {
             DataSet dataSet = new DataSet();
 
-            string query = "select id,TenHoi from Hoi where idTruyen = "+ idTruyen + " and TenHoi like '%" + tenHoi + "%'";
+            string query = "select id,TenHoi from Hoi where idTruyen = " + idTruyen + " and NoiDung like N'% " + text + " %'";
             using (SqlConnection connection = new SqlConnection(ConnectionString.connectionString))
             {
                 connection.Open();

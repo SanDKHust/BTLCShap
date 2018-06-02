@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -25,6 +26,8 @@ namespace BTLCShapDotNet
         List<string> listHoi = null;
         List<int> listIdHoi = null;
 
+        SoundPlayer musicPlayer;
+        bool isPlayMusic = false;
         public Form1()
         {
 
@@ -37,7 +40,7 @@ namespace BTLCShapDotNet
                 listViewHoi.View = View.List;
 
                 Control.CheckForIllegalCrossThreadCalls = false;
-            
+                 musicPlayer = new SoundPlayer("music.wav");
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -80,8 +83,6 @@ namespace BTLCShapDotNet
                 {
                     String fileName = openFileDialog.FileName;
                     richTextBoxString = File.ReadAllText(fileName);
-                    richTextBoxString = Regex.Replace(richTextBoxString, "<p>", " ");
-                    richTextBoxString = Regex.Replace(richTextBoxString, "</p>", "\n");
                     richTextBox.Text = richTextBoxString;
                 }
             }
@@ -114,10 +115,7 @@ namespace BTLCShapDotNet
             return true;
         }
 
-        private void buttonNext_Click(object sender, EventArgs e)
-        {
-            
-        }
+
 
         private void buttonSearch_Click(object sender, EventArgs e)
         {
@@ -134,7 +132,7 @@ namespace BTLCShapDotNet
                 //this.Invoke((Action)delegate ()
                 //{
                     strSearch = textBoxSearch.Text.ToString().Trim();
-                    DataSet dataSet = Utility.searchListHoiByTenHoi(strSearch, idCurrentTruyen);
+                    DataSet dataSet = Utility.searchListHoiByNoiDungHoi(strSearch, idCurrentTruyen);
                     listHoi = dataSet.Tables["listHoi"].AsEnumerable().Select(r => r.Field<string>("TenHoi")).ToList();
                     listIdHoi = dataSet.Tables["listHoi"].AsEnumerable().Select(r => r.Field<int>("id")).ToList();
                     listViewHoi.Clear();
@@ -260,10 +258,6 @@ namespace BTLCShapDotNet
             return dataTable.Rows[0]["NoiDung"].ToString();
         }
 
-        private void buttonPrevious_Click(object sender, EventArgs e)
-        {
-            insert();
-        }
 
         private void listViewHoi_Click(object sender, EventArgs e)
         {
@@ -281,7 +275,68 @@ namespace BTLCShapDotNet
                                 Utility.searchHighlightText(richTextBox, strSearch, Color.Yellow, true);
                             }){IsBackground = true}.Start() ;
                         }
+                     
+                        break;
                     }
+                }
+            }
+        }
+
+        private void playMusicToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (isPlayMusic)
+            {
+                musicPlayer.Stop();
+                isPlayMusic = false;
+                playMusicToolStripMenuItem.Text = "Play music";
+            }
+            else
+            {
+                try
+                {
+                    musicPlayer.PlayLooping();
+                    isPlayMusic = true;
+                    playMusicToolStripMenuItem.Text = "Stop";
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+            }
+
+        }
+
+        private void darkToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ResetAllControlsBackColor(menuStrip1.Parent, true);
+        }
+
+        private void lightToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ResetAllControlsBackColor(menuStrip1.Parent,false);
+        
+        }
+
+     
+
+        private void ResetAllControlsBackColor(Control control,bool isDark)
+        {
+            if (isDark)
+            {
+                control.BackColor = SystemColors.ControlDarkDark;
+                control.ForeColor = SystemColors.ControlLightLight;
+            }
+            else
+            {
+                control.BackColor = default(Color);
+                control.ForeColor = default(Color);
+            }
+            if (control.HasChildren)
+            {
+                // Recursively call this method for each child control.
+                foreach (Control childControl in control.Controls)
+                {
+                    ResetAllControlsBackColor(childControl,isDark);
                 }
             }
         }

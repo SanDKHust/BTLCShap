@@ -8,3 +8,13 @@ E:\BTLCShapDotNet\BTLCShapDotNet\obj\Debug\BTLCShapDotNet.csproj.GenerateResourc
 E:\BTLCShapDotNet\BTLCShapDotNet\obj\Debug\BTLCShapDotNet.csproj.CoreCompileInputs.cache
 E:\BTLCShapDotNet\BTLCShapDotNet\obj\Debug\BTLCShapDotNet.exe
 E:\BTLCShapDotNet\BTLCShapDotNet\obj\Debug\BTLCShapDotNet.pdb
+C:\Users\San\Desktop\BTLCShap\BTLCShapDotNet\bin\Debug\BTLCShapDotNet.exe.config
+C:\Users\San\Desktop\BTLCShap\BTLCShapDotNet\bin\Debug\BTLCShapDotNet.exe
+C:\Users\San\Desktop\BTLCShap\BTLCShapDotNet\bin\Debug\BTLCShapDotNet.pdb
+C:\Users\San\Desktop\BTLCShap\BTLCShapDotNet\obj\Debug\BTLCShapDotNet.csprojResolveAssemblyReference.cache
+C:\Users\San\Desktop\BTLCShap\BTLCShapDotNet\obj\Debug\BTLCShapDotNet.Form1.resources
+C:\Users\San\Desktop\BTLCShap\BTLCShapDotNet\obj\Debug\BTLCShapDotNet.Properties.Resources.resources
+C:\Users\San\Desktop\BTLCShap\BTLCShapDotNet\obj\Debug\BTLCShapDotNet.csproj.GenerateResource.Cache
+C:\Users\San\Desktop\BTLCShap\BTLCShapDotNet\obj\Debug\BTLCShapDotNet.csproj.CoreCompileInputs.cache
+C:\Users\San\Desktop\BTLCShap\BTLCShapDotNet\obj\Debug\BTLCShapDotNet.exe
+C:\Users\San\Desktop\BTLCShap\BTLCShapDotNet\obj\Debug\BTLCShapDotNet.pdb
