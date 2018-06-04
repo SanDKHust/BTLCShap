@@ -26,6 +26,9 @@ namespace BTLCShapDotNet
         List<string> listHoi = null;
         List<int> listIdHoi = null;
 
+        int[] resultsIndex;
+        MatchCollection matches;
+
         SoundPlayer musicPlayer;
         bool isPlayMusic = false;
         public Form1()
@@ -98,23 +101,15 @@ namespace BTLCShapDotNet
             s = s.Trim();
             //richTextBox.Text = s;
 
-            List<string> arrWord = s.Split(' ').ToList();
-            List<string> listWordCheck = arrWord.Distinct().ToList();
-
-            foreach (string word in listWordCheck)
+            string[] wrongWords = CheckRule.Check(s);
+            foreach (string wrongWord in wrongWords)
             {
-                if (!checkWord(word)) Utility.searchHighlightText(richTextBox, word, Color.Red, false);
+                Utility.searchHighlightText(richTextBox, wrongWord, Color.Red, false);
             }
 
-            //arr1.Sort((s1, s2) => s1.CompareTo(s2));
+                //arr1.Sort((s1, s2) => s1.CompareTo(s2));
 
-        }
-
-        private bool checkWord(String word)
-        {
-            return true;
-        }
-
+            }
 
 
         private void buttonSearch_Click(object sender, EventArgs e)
@@ -339,6 +334,43 @@ namespace BTLCShapDotNet
                     ResetAllControlsBackColor(childControl,isDark);
                 }
             }
+        }
+
+        private void checkToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!richTextBox.Text.Trim().Equals("")) new Thread(() =>
+            {
+                checkDoanVan(richTextBox.Text);
+            })
+            { IsBackground = true }.Start();
+
+        }
+
+        private void Order(String tbSearch)
+        {
+            string[] keys = tbSearch.Trim().Split(' ');
+            int len = matches.Count;
+            int[] priority = new int[len];
+            resultsIndex = new int[len];
+            for (int i = 0; i < len; i++)
+            {
+                int n = 0;
+                foreach (string key in keys)
+                {
+                    if (matches[i].Value.Contains(key))
+                    {
+                        n++;
+                    }
+                }
+                priority[i] = n;
+
+            }
+            for (int i = 0; i < len; i++)
+            {
+                resultsIndex[i] = i;
+            }
+            Array.Sort(priority, resultsIndex);
+            Array.Reverse(resultsIndex);
         }
     }
 }
