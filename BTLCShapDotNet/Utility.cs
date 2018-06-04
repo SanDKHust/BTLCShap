@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -36,13 +37,24 @@ namespace BTLCShapDotNet
                 }
                 else
                 {
-                    while ((index = textSearch.IndexOf(search, startIndex)) != -1)
+
+                    Regex rx = new Regex(" "+search+" ");
+                    foreach (Match match in rx.Matches(textSearch))
                     {
-                        myRtb.Select(index, search.Length);
+                        index = match.Index;
+                        myRtb.Select(index+1, search.Length);
                         myRtb.SelectionColor = color;
                         myRtb.SelectionFont = new Font("Italic", 10, FontStyle.Underline);
                         startIndex = index + search.Length;
                     }
+
+                    //while ((index = textSearch.IndexOf(search, startIndex)) != -1)
+                    //{
+                    //    myRtb.Select(index, search.Length);
+                    //    myRtb.SelectionColor = color;
+                    //    myRtb.SelectionFont = new Font("Italic", 10, FontStyle.Underline);
+                    //    startIndex = index + search.Length;
+                    //}
                 }
 
             }

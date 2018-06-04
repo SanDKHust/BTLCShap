@@ -90,6 +90,7 @@ namespace BTLCShapDotNet
 
         public void checkDoanVan(String str)
         {
+            CheckChinhTa checkChinhTa = new CheckChinhTa();
             var s = str.ToLower();
             s = Regex.Replace(s, @"[^\w\d]", " ");
             s = Regex.Replace(s, @"[\d-]", string.Empty);
@@ -103,18 +104,12 @@ namespace BTLCShapDotNet
 
             foreach (string word in listWordCheck)
             {
-                if (!checkWord(word)) Utility.searchHighlightText(richTextBox, word, Color.Red, false);
+                if (!checkChinhTa.kiemTraChinhTa(word)) Utility.searchHighlightText(richTextBox, word, Color.Red, false);
             }
 
             //arr1.Sort((s1, s2) => s1.CompareTo(s2));
 
         }
-
-        private bool checkWord(String word)
-        {
-            return true;
-        }
-
 
 
         private void buttonSearch_Click(object sender, EventArgs e)
@@ -339,6 +334,15 @@ namespace BTLCShapDotNet
                     ResetAllControlsBackColor(childControl,isDark);
                 }
             }
+        }
+
+        private void checkToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!richTextBox.Text.Trim().Equals("")) new Thread(() =>
+            {
+                checkDoanVan(richTextBox.Text);
+            })
+            { IsBackground = true }.Start();
         }
     }
 }
