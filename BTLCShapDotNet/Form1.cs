@@ -106,10 +106,9 @@ namespace BTLCShapDotNet
             {
                 Utility.searchHighlightText(richTextBox, wrongWord, Color.Red, false);
             }
+            
 
-                //arr1.Sort((s1, s2) => s1.CompareTo(s2));
-
-            }
+        }
 
 
         private void buttonSearch_Click(object sender, EventArgs e)

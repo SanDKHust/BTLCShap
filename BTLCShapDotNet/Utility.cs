@@ -39,6 +39,7 @@ namespace BTLCShapDotNet
                 {
 
                     Regex rx = new Regex("\\W"+search+"\\W");
+
                     foreach (Match match in rx.Matches(textSearch))
                     {
                         index = match.Index;

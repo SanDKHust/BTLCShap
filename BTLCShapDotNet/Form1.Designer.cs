@@ -98,7 +98,7 @@
             // 
             this.playMusicToolStripMenuItem.Image = global::BTLCShapDotNet.Properties.Resources.ic_play_music1;
             this.playMusicToolStripMenuItem.Name = "playMusicToolStripMenuItem";
-            this.playMusicToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.playMusicToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.playMusicToolStripMenuItem.Text = "Play music";
             this.playMusicToolStripMenuItem.Click += new System.EventHandler(this.playMusicToolStripMenuItem_Click);
             // 
@@ -115,7 +115,7 @@
             this.darkToolStripMenuItem,
             this.lightToolStripMenuItem});
             this.themeToolStripMenuItem.Name = "themeToolStripMenuItem";
-            this.themeToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.themeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.themeToolStripMenuItem.Text = "Theme";
             // 
             // darkToolStripMenuItem
